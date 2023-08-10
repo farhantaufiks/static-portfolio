@@ -109,7 +109,7 @@ const userData = {
       desc: "Kinda different with my current situation but it helps",
     },
   ],
-  resumeUrl: "#",
+  resumeUrl: "https://github.com/farhantaufiks/static-portfolio/blob/main/public/CV%20-%20Farhan%20Taufik%20Syaban.pdf",
   socialLinks: {
     instagram: "https://instagram.com/farhantaufiks",
     twitter: "https://twitter.com/farhantsyaban",
