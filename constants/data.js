@@ -113,7 +113,7 @@ const userData = {
   socialLinks: {
     instagram: "https://instagram.com/farhantaufiks",
     twitter: "https://twitter.com/farhantsyaban",
-    linkedin: "https://in.linkedin.com/in/farhantaufiks",
+    linkedin: "https://linkedin.com/in/farhan-taufik-92174a130/",
     github: "https://github.com/farhantaufiks",
     facebook: "https://facebook.com/farhantsundakid",
   },

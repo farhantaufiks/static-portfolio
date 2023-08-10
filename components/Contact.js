@@ -18,8 +18,7 @@ export default function Contact() {
                 Get in touch, let's talk.
               </h1>
               <p className="font-light text-xs text-gray-200 mt-2">
-                Contact me with Mailchimp and I'll get back to you as soon as I
-                can.
+                Contact me with Formsubmit right here and I'll get back to you as soon as I can.
               </p>
             </header>
 
@@ -153,7 +152,7 @@ export default function Contact() {
               </div>
 
               {/* Mailchimp Contact Button */}
-              <div>
+              {/* <div>
                 <div
                   href="https://us14.list-manage.com/contact-form?u=ccd7e756f9dc75821ae310866&form_id=7b06c556cdfe5559405c01eeded2454b"
                   target="_blank"
@@ -165,12 +164,12 @@ export default function Contact() {
                     Contact Me
                   </span>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
 
           <form
-            action={`https://formsubmit.co/${userData.email}`}
+            action={`https://formsubmit.co/b85d6924bcf3ffcb7f2f7c31075b07f2`}
             method="POST"
             className="form rounded-lg bg-white p-4 flex flex-col"
           >
