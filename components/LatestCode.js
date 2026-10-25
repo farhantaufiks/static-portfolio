@@ -1,7 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import userData from "@constants/data";
 
 export default function LatestCode({ repositories = [] }) {
+  const [repos, setRepos] = useState(repositories);
+
+  // /repos.json is refreshed by a cron job on the server (scripts/update-repos.sh).
+  // If it is missing or invalid, keep the list that was baked in at build time.
+  useEffect(() => {
+    fetch("/repos.json", { cache: "no-cache" })
+      .then((res) => (res.ok ? res.json() : null))
+      .then((data) => {
+        if (Array.isArray(data) && data.length > 0) setRepos(data);
+      })
+      .catch(() => {});
+  }, []);
+
   return (
     <section className="bg-[#F1F1F1] -mt-40 dark:bg-gray-900 pb-40">
       <div className="max-w-6xl mx-auto">
@@ -38,7 +51,7 @@ export default function LatestCode({ repositories = [] }) {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto px-10 lg:-mt-10 gap-y-20">
         {/* Single github Repo */}
 
-        {repositories.map((latestRepo) => (
+        {repos.map((latestRepo) => (
           <GithubRepoCard latestRepo={latestRepo} key={latestRepo.id} />
         ))}
       </div>

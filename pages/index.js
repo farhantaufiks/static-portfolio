@@ -18,8 +18,10 @@ export default function Home({ repositories }) {
   );
 }
 
-export const getServerSideProps = async () => {
-  let token = process.env.GITHUB_AUTH_TOKEN;
+// Repos are baked in at build time as a fallback; the browser then loads the
+// fresher list from /repos.json, which a daily cron job rewrites on the server.
+export const getStaticProps = async () => {
+  const token = process.env.GITHUB_AUTH_TOKEN;
   const repositories = await getLatestRepos(userData, token);
 
   return {
