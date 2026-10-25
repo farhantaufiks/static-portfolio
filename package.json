@@ -1,5 +1,5 @@
 {
-  "name": "nextjs",
+  "name": "static-portfolio",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -8,18 +8,21 @@
     "start": "next start"
   },
   "dependencies": {
-    "@badrap/bar-of-progress": "^0.2.2",
-    "axios": "^1.7.9",
-    "next": "^15.1.2",
-    "next-themes": "0.4.4",
-    "react": "^19.x",
-    "react-dom": "^19.x",
-    "react-icons": "^5.4.0",
-    "react-rough-notation": "^1.0.5"
+    "@badrap/bar-of-progress": "^0.3.0",
+    "axios": "^1.20.0",
+    "next": "^16.4.3",
+    "next-themes": "^0.4.6",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-icons": "^5.7.0",
+    "react-rough-notation": "^1.0.8"
   },
   "devDependencies": {
-    "autoprefixer": "^10.4.20",
-    "postcss": "^8.4.49",
-    "tailwindcss": "^3.4.17"
+    "@tailwindcss/postcss": "^4.3.3",
+    "postcss": "^8.5.31",
+    "tailwindcss": "^4.3.3"
+  },
+  "engines": {
+    "node": ">=20.9.0"
   }
 }

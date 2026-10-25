@@ -1,17 +1,38 @@
-## Portfolio Website For Developers 💯
+# Farhan Taufik Syaban — Portfolio
 
-Portfolio for developers is a simple and minimalistic website to showcase your skills and projects as a developer. The design is inspired by [Manu Arora](https://manuarora.in/) and [Sujeet Gund](https://sujeetgund.vercel.app). The website is completely Open Source, you can use it for whatever purpose you want.
+Personal portfolio website built with Next.js (Pages Router) and Tailwind CSS.
 
-# Features ⚡️
+## Features
 
-- Responsive layout, works well on both Mobile and Desktop
-- Dark mode support. Click buttons to toggle dark mode and light mode.
-- Clear React components and tailwind styling.
-- Exact sections that a developer needs to showcase their skills.
-- Clear call to actions.
+- Responsive layout for mobile and desktop
+- Light / dark mode toggle
+- Latest public GitHub repositories fetched on the server
+- Contact form via [FormSubmit](https://formsubmit.co)
 
-# Tech Stack 📦️
+## Tech Stack
 
-- [Next.js](https://nextjs.org) for building React Components.
-- [tailwindcss](https://tailwindcss.com) for styling.
-- [React Rough Notation](https://roughnotation.com) for Hero section highlighting.
+- [Next.js](https://nextjs.org)
+- [Tailwind CSS](https://tailwindcss.com)
+- [React Rough Notation](https://roughnotation.com) for the hero highlights
+
+## Getting Started
+
+Requires Node.js 20.9 or newer.
+
+```bash
+npm install
+cp .env.example .env.local   # optional, see below
+npm run dev
+```
+
+| Variable | Purpose |
+| --- | --- |
+| `GITHUB_AUTH_TOKEN` | Optional GitHub token to avoid the unauthenticated API rate limit. |
+| `NEXT_PUBLIC_SITE_URL` | Deployed origin, used for `canonical` and `og:url` meta tags. |
+
+Personal content (projects, experience, links) lives in `constants/data.js`.
+
+## Credits
+
+Layout originally based on the open-source portfolio template by
+[Manu Arora](https://manuarora.in/).

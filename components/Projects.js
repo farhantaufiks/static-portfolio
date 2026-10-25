@@ -29,13 +29,18 @@ export default function Projects() {
 }
 
 const ProjectCard = ({ title, link, imgUrl, number, desc }) => {
+  // Projects without a public URL render as a plain card instead of a dead link.
+  const Wrapper = link ? "a" : "div";
+  const linkProps = link
+    ? { href: link, target: "_blank", rel: "noopener noreferrer" }
+    : {};
   return (
-    <a href={link} className="w-full block shadow-2xl">
+    <Wrapper {...linkProps} className="w-full block shadow-2xl">
       <div className="relative overflow-hidden">
         <div className="h-72 object-cover">
           <img
             src={imgUrl}
-            alt="portfolio"
+            alt={title}
             className="transform hover:scale-125 transition duration-2000 ease-out object-cover h-full w-full"
           />
         </div>
@@ -46,6 +51,6 @@ const ProjectCard = ({ title, link, imgUrl, number, desc }) => {
           {number.length === 1 ? "0" + number : number}. {desc}
         </h1>
       </div>
-    </a>
+    </Wrapper>
   );
 };

@@ -13,9 +13,8 @@ export default function Experience() {
         <div className="grid grid-cols-1 dark:bg-gray-900 max-w-xl mx-auto pt-20">
           {/* Experience card */}
           {userData.experience.map((exp, idx) => (
-            <>
+            <React.Fragment key={idx}>
               <ExperienceCard
-                key={idx}
                 title={exp.title}
                 desc={exp.desc}
                 year={exp.year}
@@ -30,7 +29,7 @@ export default function Experience() {
                   <div className="w-1 h-24 bg-gray-200 dark:bg-gray-500 rounded-full -mt-2"></div>
                 </div>
               )}
-            </>
+            </React.Fragment>
           ))}
         </div>
       </div>
@@ -45,7 +44,12 @@ const ExperienceCard = ({ title, desc, year, company, companyLink }) => {
         {year}
       </h1>
       <h1 className="font-semibold text-xl">{title}</h1>
-      <a href={companyLink} className="text-gray-500">
+      <a
+        href={companyLink}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-gray-500"
+      >
         {company}
       </a>
       <p className="text-gray-600 dark:text-gray-400 my-2">{desc}</p>

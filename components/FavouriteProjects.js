@@ -37,13 +37,15 @@ export default function FavouriteProjects() {
           {/* Single card */}
           <a
             href="https://edot.id/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full block col-span-3 shadow-2xl"
             title="Edot Logistic"
           >
             <div className="relative overflow-hidden">
               <img
                 src="projects/elog.png"
-                alt="portfolio"
+                alt="Edot Logistic"
                 className="transform hover:scale-125 transition duration-2000 ease-out"
               />
               <h1 className="absolute top-10 left-10 text-gray-50 font-bold text-xl bg-red-500 rounded-md px-2">
@@ -58,18 +60,20 @@ export default function FavouriteProjects() {
           {/* Single card */}
           <a
             href="https://vybes.id/"
+            target="_blank"
+            rel="noopener noreferrer"
             className="w-full block col-span-3  sm:col-span-2 shadow-2xl"
-            title="Hulu Clone"
+            title="Vybeslink"
           >
             <div className="relative overflow-hidden">
               {/* <div className="overlay absolute inset-0 bg-black bg-opacity-70 z-10"></div> */}
               <img
                 src="projects/vybes.png"
-                alt="Vybes Link"
+                alt="Vybeslink"
                 className="transform hover:scale-125 transition duration-2000 ease-out"
               />
               <h1 className="absolute top-10 left-10 text-gray-50 font-bold text-xl bg-red-500 rounded-md px-2">
-                Vybes
+                Vybeslink
               </h1>
               <h1 className="absolute bottom-10 left-10 text-gray-50 font-bold text-xl">
                 02
@@ -78,26 +82,25 @@ export default function FavouriteProjects() {
           </a>
 
           {/* Single card */}
-          <a
-            href=""
+          <div
             className="w-full block col-span-3 sm:col-span-1  object-cover"
-            title="Core Service Edot Group"
+            title="Core API Service for Edot Group"
           >
             <div className="relative overflow-hidden shadow-2xl">
               {/* <div className="overlay absolute inset-0 bg-black bg-opacity-70 z-10"></div> */}
               <img
                 src="projects/api.jpg"
-                alt="Core Service for Edot Group"
+                alt="Core API Service for Edot Group"
                 className="transform hover:scale-125 transition duration-2000 ease-out object-cover shadow-2xl"
               />
               <h1 className="absolute top-10 left-10 text-gray-50 font-bold text-xl bg-red-500 rounded-md px-2">
-                Core Service for Edot Group
+                Core API Service for Edot Group
               </h1>
               <h1 className="absolute bottom-10 left-10 text-gray-50 font-bold text-xl">
                 03
               </h1>
             </div>
-          </a>
+          </div>
         </div>
       </div>
     </div>

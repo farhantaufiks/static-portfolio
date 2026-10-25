@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React from "react";
 import userData from "@constants/data";
-import { FaMailchimp } from "react-icons/fa";
 
 export default function Contact() {
   return (
@@ -39,7 +38,7 @@ export default function Contact() {
                   />
                 </svg>
                 <a
-                  href={`tel://${userData.phone.trim()}`}
+                  href={`tel:${userData.phone.replace(/\s+/g, "")}`}
                   className="text-gray-50 font-light text-sm"
                 >
                   {userData.phone}
@@ -57,7 +56,7 @@ export default function Contact() {
                   <path d="M.05 3.555A2 2 0 0 1 2 2h12a2 2 0 0 1 1.95 1.555L8 8.414.05 3.555zM0 4.697v7.104l5.803-3.558L0 4.697zM6.761 8.83l-6.57 4.027A2 2 0 0 0 2 14h12a2 2 0 0 0 1.808-1.144l-6.57-4.027L8 9.586l-1.239-.757zm3.436-.586L16 11.801V4.697l-5.803 3.546z" />
                 </svg>
                 <a
-                  href={`mailto://${userData.email}`}
+                  href={`mailto:${userData.email}`}
                   className="text-gray-50 font-light text-sm"
                 >
                   {userData.email}
@@ -82,8 +81,10 @@ export default function Contact() {
 
             {/* social media */}
             <div className="social-icons flex flex-row space-x-8">
-              <div
+              <a
                 href={userData.socialLinks.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full hover:bg-blue-500 flex items-center justify-center cursor-pointer"
               >
                 <svg
@@ -99,9 +100,11 @@ export default function Contact() {
                     fill="currentColor"
                   />
                 </svg>
-              </div>
-              <div
+              </a>
+              <a
                 href={userData.socialLinks.twitter}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full hover:bg-blue-500 flex items-center justify-center cursor-pointer"
               >
                 <svg
@@ -119,9 +122,11 @@ export default function Contact() {
                     fill="currentColor"
                   />
                 </svg>
-              </div>
-              <div
+              </a>
+              <a
                 href={userData.socialLinks.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="h-10 w-10 rounded-full hover:bg-blue-500 flex items-center justify-center cursor-pointer"
               >
                 <svg
@@ -149,22 +154,7 @@ export default function Contact() {
                     fill="currentColor"
                   />
                 </svg>
-              </div>
-
-              {/* Mailchimp Contact Button */}
-              {/* <div>
-                <div
-                  href="https://us14.list-manage.com/contact-form?u=ccd7e756f9dc75821ae310866&form_id=7b06c556cdfe5559405c01eeded2454b"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="w-full flex items-center justify-center px-4 py-2 bg-yellow-500 text-md rounded-full hover:bg-yellow-600"
-                >
-                  <FaMailchimp />
-                  <span className="font-medium mx-2 whitespace-nowrap text-sm lg:text-lg">
-                    Contact Me
-                  </span>
-                </div>
-              </div> */}
+              </a>
             </div>
           </div>
 
@@ -179,7 +169,7 @@ export default function Contact() {
             </label>
             <input
               type="text"
-              className="font-light rounded-md border focus:outline-none py-2 mt-2 px-1 mx-4 focus:ring-2 focus:border-none ring-blue-500"
+              className="font-light rounded-md border focus:outline-hidden py-2 mt-2 px-1 mx-4 focus:ring-2 focus:border-none ring-blue-500"
               name="name"
               required
             />
@@ -188,7 +178,7 @@ export default function Contact() {
             </label>
             <input
               type="email"
-              className="font-light rounded-md border focus:outline-none py-2 mt-2 px-1 mx-4 focus:ring-2 focus:border-none ring-blue-500"
+              className="font-light rounded-md border focus:outline-hidden py-2 mt-2 px-1 mx-4 focus:ring-2 focus:border-none ring-blue-500"
               name="email"
               required
             />
@@ -202,7 +192,7 @@ export default function Contact() {
               rows="6"
               type="text"
               style={{ resize: "none" }}
-              className="font-light rounded-md border focus:outline-none py-2 mt-2 px-1 mx-4 focus:ring-2 focus:border-none ring-blue-500"
+              className="font-light rounded-md border focus:outline-hidden py-2 mt-2 px-1 mx-4 focus:ring-2 focus:border-none ring-blue-500"
               name="message"
               required
             ></textarea>
@@ -212,7 +202,6 @@ export default function Contact() {
               value="Message from Website!"
             />
             <input type="hidden" name="_captcha" value="false" />
-            <input type="hidden" name="_next" value={``} />
             <button
               type="submit"
               className="bg-blue-500 rounded-md w-1/2 mx-4 mt-8 py-2 text-gray-50 text-xs font-bold"

@@ -4,11 +4,14 @@ import { useRouter } from "next/router";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
 
+// Public origin of the deployed site, e.g. https://example.com (no trailing slash).
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "");
+
 export default function ContainerBlock({ children, ...customMeta }) {
   const router = useRouter();
 
   const meta = {
-    title: "Farhan Taufik Syaban- Fullstack Developer",
+    title: "Farhan Taufik Syaban - Fullstack Developer",
     description: `I barely talk, code more! Get in touch with me to know more.`,
     image:
       "https://avatars.githubusercontent.com/u/78304339?s=400&u=0688ef06ab951967a3ae563510efb2f88c5602d9&v=4",
@@ -21,14 +24,12 @@ export default function ContainerBlock({ children, ...customMeta }) {
         <title>{meta.title}</title>
         <meta name="robots" content="follow, index" />
         <meta content={meta.description} name="description" />
-        <meta
-          property="og:url"
-          content={`https://sujeetgund.vercel.app${router.asPath}`}
-        />
-        <link
-          rel="canonical"
-          href={`https://sujeetgund.vercel.app${router.asPath}`}
-        />
+        {siteUrl && (
+          <meta property="og:url" content={`${siteUrl}${router.asPath}`} />
+        )}
+        {siteUrl && (
+          <link rel="canonical" href={`${siteUrl}${router.asPath}`} />
+        )}
         <meta property="og:type" content={meta.type} />
         <meta property="og:site_name" content="Farhan Taufik Syaban" />
         <meta property="og:description" content={meta.description} />

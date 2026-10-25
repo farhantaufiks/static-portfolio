@@ -1,5 +1,3 @@
-import Head from "next/head";
-import styles from "../styles/Home.module.css";
 import ContainerBlock from "../components/ContainerBlock";
 import FavouriteProjects from "../components/FavouriteProjects";
 import LatestCode from "../components/LatestCode";
@@ -11,7 +9,7 @@ export default function Home({ repositories }) {
   return (
     <ContainerBlock
       title="Farhan Taufik Syaban - Developer"
-      description="I've been in developer industry for 3 years straight both Backend and Frontend. Get in touch with me to know more."
+      description="Fullstack Developer since 2021, building backend services and web apps with AI-assisted tools. Get in touch with me to know more."
     >
       <Hero />
       <FavouriteProjects />

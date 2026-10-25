@@ -6,7 +6,6 @@ import userData from "@constants/data";
 
 export default function Navbar() {
   const router = useRouter();
-  // console.log(router.asPath);
   const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
 
@@ -136,6 +135,8 @@ export default function Navbar() {
         <div className="space-x-4 flex flex-row items-center">
           <a
             href={userData.socialLinks.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-base font-normal text-gray-600 dark:text-gray-300"
           >
             <svg
@@ -151,6 +152,8 @@ export default function Navbar() {
           </a>
           <a
             href={userData.socialLinks.twitter}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-base font-normal text-gray-600 dark:text-gray-300"
           >
             <svg
@@ -166,6 +169,8 @@ export default function Navbar() {
           </a>
           <a
             href={userData.socialLinks.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
             className="text-base font-normal text-gray-600 dark:text-gray-300"
           >
             <svg
@@ -182,7 +187,7 @@ export default function Navbar() {
           <button
             aria-label="Toggle Dark Mode"
             type="button"
-            className="w-10 h-10 p-3 rounded focus:outline-none"
+            className="w-10 h-10 p-3 rounded-sm focus:outline-hidden"
             onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
           >
             {mounted && (

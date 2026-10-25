@@ -19,6 +19,8 @@ export default function AboutMe() {
             <a
               className="bg-red-500 rounded-md px-2 py-1 text-white"
               href={userData.about.currentProjectUrl}
+              target="_blank"
+              rel="noopener noreferrer"
             >
               {userData.about.currentProject} ✈️
             </a>
@@ -53,7 +55,8 @@ export default function AboutMe() {
                 check my{" "}
                 <a
                   href={userData.resumeUrl}
-                  target="__blank"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-800 border-b-2 border-gray-800 dark:border-gray-300 font-bold dark:text-gray-300"
                 >
                   CV
@@ -70,6 +73,8 @@ export default function AboutMe() {
               <div className="flex flex-row justify-start items-center ">
                 <a
                   href={userData.socialLinks.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex flex-row items-center space-x-4 group"
                 >
                   <div className="my-4">&rarr;</div>
@@ -82,6 +87,8 @@ export default function AboutMe() {
               <div className="flex flex-row justify-start items-center">
                 <a
                   href={userData.socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex flex-row items-center space-x-4 group"
                 >
                   <div className="my-4">&rarr;</div>
@@ -94,6 +101,8 @@ export default function AboutMe() {
               <div className="flex flex-row justify-start items-center">
                 <a
                   href={userData.socialLinks.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex flex-row items-center space-x-4 group"
                 >
                   <div className="my-4">&rarr;</div>
@@ -106,6 +115,8 @@ export default function AboutMe() {
               <div className="flex flex-row justify-start items-center">
                 <a
                   href={userData.socialLinks.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex flex-row items-center space-x-4 group"
                 >
                   <div className="my-4">&rarr;</div>
@@ -117,7 +128,9 @@ export default function AboutMe() {
               </div>
               <div className="flex flex-row justify-start items-center">
                 <a
-                  href={userData.socialLinks.twitter}
+                  href={userData.socialLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex flex-row items-center space-x-4 group"
                 >
                   <div className="my-4">&rarr;</div>
@@ -146,50 +159,62 @@ export default function AboutMe() {
             <div className="flex flex-row flex-wrap mt-8">
               <img
                 src="tech stack/html-logo.png"
+                alt="html"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/css-logo.png"
+                alt="css"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/js-logo.png"
+                alt="js"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/ts-logo.png"
+                alt="ts"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/git-logo.png"
+                alt="git"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/react-logo.png"
+                alt="react"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/nextjs-logo.png"
+                alt="nextjs"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/firebase-logo.png"
+                alt="firebase"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/strapi-logo.webp"
+                alt="strapi"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/mongodb-logo.webp"
+                alt="mongodb"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/sanity-logo.png"
+                alt="sanity"
                 className="h-20 w-20 mx-4 my-4"
               />
               <img
                 src="tech stack/python-logo.png"
+                alt="python"
                 className="h-20 w-20 mx-4 my-4"
               />
             </div>
