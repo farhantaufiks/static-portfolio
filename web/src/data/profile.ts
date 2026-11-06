@@ -52,7 +52,7 @@ export const parallels = [
   {
     field: "Reservoir characterisation",
     fieldText:
-      "Porosity, saturation, permeability. You describe the container properly before you estimate what's in it.",
+      "Porosity, saturation, permeability. Get them right, because the modelling geologist and the geophysicist build on your numbers.",
     prod: "Data modelling",
     prodText:
       "ERD and API spec before code. I write the planning doc first, so other engineers can build against it.",
@@ -117,10 +117,11 @@ export const strata: {
     lithLabel: "Shale: fine layers, read closely",
     weight: 2,
     points: [
-      "Characterised oil and gas reservoirs from well-log and core data: density, pore pressure, electrical and acoustic properties, radioactivity.",
+      "Interpreted well logs together with core and geochemistry data: density, pore pressure, electrical and acoustic properties, radioactivity.",
+      "My results went to the modelling geologist, who combined them with the geophysicist's data to build the reservoir model. The data is mine to get right; the model depends on it.",
       "Derived sand-shale ratio, porosity and water saturation to estimate reserves; field data and research for a hydrocarbon study of the Bogor Basin.",
     ],
-    tags: ["Petrophysics", "Well logs", "Rock physics"],
+    tags: ["Petrophysics", "Well-log analysis", "Geochemistry", "Rock physics"],
   },
   {
     years: "2019 – 2020",
@@ -187,16 +188,16 @@ export const work = [
     text: "Built from the ERD up, then made the fulfilment provider for Food Distribution and for sister companies across Nabati Group.",
   },
   {
-    kicker: "Petrophysics · well logs",
+    kicker: "Petrophysics · well logs · geochemistry",
     title: "Bogor Basin study",
-    text: "Porosity, water saturation and sand-shale ratio from well logs to estimate hydrocarbon potential, plus raw field data collection.",
+    text: "Porosity, water saturation and sand-shale ratio from well logs, core and geochemistry, feeding the geological model that estimated hydrocarbon potential. Plus raw field data collection.",
   },
 ];
 
 export const toolbox = [
   {
     name: "Geoscience",
-    items: ["Petrophysics", "Well-log & core analysis", "Porosity / Sw / sand-shale", "Rock physics", "Field acquisition"],
+    items: ["Petrophysics", "Well-log interpretation", "Core & geochemistry analysis", "Porosity / Sw / sand-shale", "Rock physics", "Field acquisition"],
   },
   {
     name: "Backend & data",
