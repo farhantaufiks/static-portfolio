@@ -1,78 +1,43 @@
-# Farhan Taufik Syaban — Portfolio
+# farhantaufiks.com
 
-Personal portfolio website built with Next.js (Pages Router) and Tailwind CSS.
+Two portfolio sites for the same person, in one repo, built and deployed separately.
 
-## Features
+| Folder | Domain | Stack | Made by |
+|---|---|---|---|
+| [`web/`](web) | [farhantaufiks.com](https://farhantaufiks.com) | Astro 7, plain CSS, zero framework JS | Claude Code, from one prompt |
+| [`manmade/`](manmade) | [manmade.farhantaufiks.com](https://manmade.farhantaufiks.com) | Next.js 16 static export, Tailwind 4 | Me, by hand (2021) |
 
-- Responsive layout for mobile and desktop
-- Light / dark mode toggle
-- Latest public GitHub repositories, refreshed daily
-- Contact form via [FormSubmit](https://formsubmit.co)
+`web/` introduces me as **Earth Science & Computer Science**: a geologist turned software
+engineer. Claude Code chose the stack, the concept (topographic hero, career as a
+stratigraphic column), the copy and the deploy setup. `manmade/` is the site I wrote myself
+and still maintain, kept online for comparison.
 
-## Tech Stack
+## Build
 
-- [Next.js](https://nextjs.org)
-- [Tailwind CSS](https://tailwindcss.com)
-- [React Rough Notation](https://roughnotation.com) for the hero highlights
-
-## How it works
-
-The site is a static export (`next build` → `out/`) served by nginx. There is no
-Node.js process in production.
-
-- **Deploy:** every push to `main` runs `.github/workflows/deploy.yml`, which builds
-  on GitHub Actions and rsyncs `out/` to the VPS. The server never builds.
-- **Latest Code:** repos are baked in at build time. On the server, a daily cron job
-  runs `scripts/update-repos.sh`, which rewrites `repos.json` in the web root, and the
-  page loads it in the browser. It needs only `curl` and `jq`.
-- **nginx:** `deploy/nginx/static-portfolio.conf` has the server block, including the
-  security headers.
-
-### Server setup (once)
+Each folder is an independent npm project.
 
 ```bash
-sudo apt install -y jq rsync
-sudo mkdir -p /var/www/static-portfolio && sudo chown "$USER" /var/www/static-portfolio
+# web/ (needs Node >= 22.23.4)
+cd web && npm ci && npm run build        # -> web/dist/
 
-# nginx: copy deploy/nginx/static-portfolio.conf to /etc/nginx/sites-available/,
-# set server_name and root, enable it, then: sudo nginx -t && sudo systemctl reload nginx
-
-# cron: refresh repos.json daily at 03:00 (and once now)
-./scripts/update-repos.sh /var/www/static-portfolio
-( crontab -l 2>/dev/null; echo '0 3 * * * /path/to/update-repos.sh /var/www/static-portfolio >/dev/null 2>&1' ) | crontab -
+# manmade/ (needs Node >= 20.9)
+cd manmade && npm ci && npm run build    # -> manmade/out/
 ```
 
-### GitHub repository settings
+## Deploy (manual, to the VPS)
 
-| Name | Kind | Value |
-| --- | --- | --- |
-| `VPS_HOST` | secret | Server hostname or IP |
-| `VPS_USER` | secret | SSH user that owns the web root |
-| `VPS_WEB_ROOT` | secret | e.g. `/var/www/static-portfolio` |
-| `VPS_SSH_KEY` | secret | Private key of a deploy-only key pair |
-| `VPS_KNOWN_HOSTS` | secret | Output of `ssh-keyscan <host>` |
-| `VPS_PORT` | secret | Optional, defaults to 22 |
-| `SITE_URL` | variable | e.g. `https://example.com` |
-
-## Getting Started
-
-Requires Node.js 20.9 or newer.
+nginx serves both as static files; see [`deploy/nginx/farhantaufiks.com.conf`](deploy/nginx/farhantaufiks.com.conf).
 
 ```bash
-npm install
-cp .env.example .env.local   # optional, see below
-npm run dev     # local development
-npm run build   # static export to out/
+KEY=~/.ssh/<your-key>
+HOST=<user>@<vps-host>
+
+rsync -az --delete -e "ssh -i $KEY" web/dist/ $HOST:/var/www/farhantaufiks-web/
+rsync -az --delete --exclude repos.json -e "ssh -i $KEY" manmade/out/ $HOST:/var/www/static-portofolio/
 ```
 
-| Variable | Purpose |
-| --- | --- |
-| `GITHUB_AUTH_TOKEN` | Optional GitHub token to avoid the unauthenticated API rate limit. |
-| `NEXT_PUBLIC_SITE_URL` | Deployed origin, used for `canonical` and `og:url` meta tags. |
+`manmade/` needs `NEXT_PUBLIC_SITE_URL=https://manmade.farhantaufiks.com` in `manmade/.env.local`
+when building. Its `repos.json` is refreshed on the server by a daily cron
+(`manmade/scripts/update-repos.sh`).
 
-Personal content (projects, experience, links) lives in `constants/data.js`.
-
-## Credits
-
-Layout originally based on the open-source portfolio template by
-[Manu Arora](https://manuarora.in/).
+On Vercel, set the project's **Root Directory** to `manmade` (or add a second project for `web`).

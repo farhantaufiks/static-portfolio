@@ -1,0 +1,173 @@
+---
+import { profile, claudeWork, sameSession } from "../data/profile";
+---
+
+<section id="claude" class="claude">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">04 · How this site was made</p>
+      <h2>Claude Code built this page. I built the other one.</h2>
+      <p>
+        This site came from a single prompt. My hand-coded portfolio from 2021 is still online at{" "}
+        <a href={profile.manmade}>manmade.farhantaufiks.com</a>. Same person, same CV, different
+        tools. Compare them.
+      </p>
+    </div>
+
+    <div class="split">
+      <figure class="prompt">
+        <figcaption class="mono">prompt.txt: everything I specified</figcaption>
+        <blockquote>
+          <p>
+            "Create a website to introduce myself, as Earth Science and Comp Science. That could be my
+            whole tagline. I won't give you specific instructions. Base it on what I do, how I talk to
+            you in other sessions, my background, my LinkedIn and my CV. Keep it separate from the
+            current site, deployable on its own, in the same repo."
+          </p>
+        </blockquote>
+        <div class="decided">
+          <p class="mono">What Claude decided on its own</p>
+          <ul>
+            <li>The stack: Astro, with no JavaScript framework shipped to the browser</li>
+            <li>The concept: topographic hero, career as a stratigraphic column</li>
+            <li>Every word of copy, the palette and the type</li>
+            <li>The repo split: <code>manmade/</code> and <code>web/</code>, built and deployed independently</li>
+            <li>The nginx vhosts, TLS and the deploy to my VPS</li>
+          </ul>
+        </div>
+      </figure>
+
+      <div class="notes">
+        <h3>How I use it day to day</h3>
+        <ul class="check">
+          {claudeWork.map((c) => <li>{c}</li>)}
+        </ul>
+
+        <h3>In the same session, before this page</h3>
+        <ol class="log mono">
+          {sameSession.map((s) => <li>{s}</li>)}
+        </ol>
+        <p class="aside">
+          The part I own: deciding what to build, checking what comes back, and saying no when it is
+          wrong. The typing is the cheap part now.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .claude {
+    background: var(--bg-2);
+    border-block: 1px solid var(--rule);
+  }
+  .split {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+  .prompt {
+    margin: 0;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 1px solid var(--rule);
+    background: var(--surface);
+  }
+  figcaption {
+    padding: 10px 18px;
+    border-bottom: 1px solid var(--rule);
+    color: var(--ink-3);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  figcaption::before {
+    content: "";
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--moss);
+  }
+  blockquote {
+    margin: 0;
+    padding: 22px 22px 18px;
+    font-family: var(--serif);
+    font-size: 1.25rem;
+    line-height: 1.45;
+    font-style: italic;
+  }
+  .decided {
+    padding: 18px 22px 22px;
+    border-top: 1px dashed var(--rule);
+  }
+  .decided .mono {
+    color: var(--ochre);
+    margin-bottom: 8px;
+  }
+  .decided ul {
+    margin: 0;
+    padding-left: 18px;
+    color: var(--ink-2);
+    display: grid;
+    gap: 4px;
+    font-size: 0.95rem;
+  }
+  code {
+    font-family: var(--mono);
+    font-size: 0.85em;
+    color: var(--moss);
+  }
+  .notes h3 {
+    font-size: 1.35rem;
+    margin-bottom: 12px;
+  }
+  .notes h3:not(:first-child) {
+    margin-top: 30px;
+  }
+  .check {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 8px;
+    color: var(--ink-2);
+    font-size: 0.97rem;
+  }
+  .check li {
+    padding-left: 24px;
+    position: relative;
+  }
+  .check li::before {
+    content: "▸";
+    position: absolute;
+    left: 4px;
+    color: var(--ochre);
+  }
+  .log {
+    margin: 0;
+    padding: 16px 18px 16px 40px;
+    background: var(--bg);
+    border: 1px solid var(--rule);
+    border-radius: 10px;
+    display: grid;
+    gap: 8px;
+    color: var(--ink-2);
+    font-size: 0.8rem;
+    line-height: 1.5;
+  }
+  .log li::marker {
+    color: var(--moss);
+  }
+  .aside {
+    margin-top: 22px;
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-style: italic;
+  }
+  @media (max-width: 860px) {
+    .split {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

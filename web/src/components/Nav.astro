@@ -1,0 +1,108 @@
+---
+import { profile } from "../data/profile";
+---
+
+<header class="nav">
+  <div class="wrap row">
+    <a href="#top" class="mark" aria-label="Home">
+      <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true">
+        <rect x="2" y="3" width="20" height="4" rx="1" fill="var(--ochre)"></rect>
+        <rect x="2" y="9" width="20" height="3" rx="1" fill="var(--lith)"></rect>
+        <rect x="2" y="14" width="20" height="2" rx="1" fill="var(--ink)"></rect>
+        <rect x="2" y="18" width="20" height="3" rx="1" fill="var(--moss)"></rect>
+      </svg>
+      <span>farhantaufiks</span>
+    </a>
+    <nav aria-label="Sections">
+      <a href="#parallels">Method</a>
+      <a href="#strata">Strata</a>
+      <a href="#work">Work</a>
+      <a href="#claude">Claude</a>
+      <a href={profile.manmade} class="ext">Hand-made ↗</a>
+      <button id="theme" type="button" aria-label="Toggle colour theme" title="Toggle theme">
+        <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.6"></circle>
+          <path d="M12 3a9 9 0 0 1 0 18z" fill="currentColor"></path>
+        </svg>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById("theme");
+  btn?.addEventListener("click", () => {
+    const root = document.documentElement;
+    const current =
+      root.dataset.theme ??
+      (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    const next = current === "dark" ? "light" : "dark";
+    root.dataset.theme = next;
+    try {
+      localStorage.setItem("theme", next);
+    } catch {}
+    window.dispatchEvent(new Event("themechange"));
+  });
+</script>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    backdrop-filter: blur(10px);
+    background: color-mix(in srgb, var(--bg) 82%, transparent);
+    border-bottom: 1px solid color-mix(in srgb, var(--rule) 70%, transparent);
+  }
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    gap: 16px;
+  }
+  .mark {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--mono);
+    font-size: 0.85rem;
+    text-decoration: none;
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: clamp(10px, 2.4vw, 26px);
+    font-size: 0.9rem;
+  }
+  nav a {
+    text-decoration: none;
+    color: var(--ink-2);
+  }
+  nav a:hover {
+    color: var(--ink);
+  }
+  .ext {
+    color: var(--ochre);
+  }
+  button {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--rule);
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+  }
+  button:hover {
+    border-color: var(--ochre);
+    color: var(--ochre);
+  }
+  @media (max-width: 720px) {
+    nav a:not(.ext) {
+      display: none;
+    }
+  }
+</style>

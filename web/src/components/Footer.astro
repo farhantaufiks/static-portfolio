@@ -1,0 +1,62 @@
+---
+import { profile } from "../data/profile";
+const year = new Date().getFullYear();
+---
+
+<footer id="contact">
+  <div class="wrap">
+    <p class="eyebrow">05 · Contact</p>
+    <h2>Got a dataset that's half rock, half code?</h2>
+    <p class="sub">
+      Backend work, data pipelines, or applied AI for geoscience and mining. I read email.
+    </p>
+    <a class="mail" href={`mailto:${profile.email}`}>{profile.email}</a>
+    <div class="links">
+      <a href={profile.links.linkedin} rel="noopener noreferrer">LinkedIn</a>
+      <a href={profile.links.github} rel="noopener noreferrer">GitHub</a>
+      <a href={profile.cv} download>CV (PDF)</a>
+      <a href={profile.manmade}>Hand-made site</a>
+    </div>
+    <p class="fine mono">
+      © {year} {profile.name} · {profile.coords} · built with Claude Code, served by nginx from a 1 GB VPS
+    </p>
+  </div>
+</footer>
+
+<style>
+  footer {
+    padding: clamp(80px, 11vw, 140px) 0 40px;
+  }
+  h2 {
+    font-size: clamp(2.2rem, 6vw, 4.4rem);
+    max-width: 900px;
+    margin-top: 14px;
+  }
+  .sub {
+    margin-top: 16px;
+    color: var(--ink-2);
+    font-size: 1.1rem;
+  }
+  .mail {
+    display: inline-block;
+    margin-top: 28px;
+    font-family: var(--serif);
+    font-style: italic;
+    font-size: clamp(1.4rem, 4vw, 2.4rem);
+    text-decoration-thickness: 2px;
+    word-break: break-all;
+  }
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 26px;
+    margin-top: 28px;
+  }
+  .fine {
+    margin-top: 72px;
+    padding-top: 20px;
+    border-top: 1px solid var(--rule);
+    color: var(--ink-3);
+    font-size: 0.7rem;
+  }
+</style>

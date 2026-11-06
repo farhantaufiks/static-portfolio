@@ -1,0 +1,29 @@
+---
+import Base from "../layouts/Base.astro";
+---
+
+<Base title="404 · Dry hole">
+  <main id="main" class="wrap dry">
+    <p class="eyebrow">404 · dry hole</p>
+    <h1>We drilled here. Nothing came up.</h1>
+    <p>The page you're looking for isn't in this formation.</p>
+    <a class="btn primary" href="/">Back to the surface</a>
+  </main>
+</Base>
+
+<style>
+  .dry {
+    min-height: 100svh;
+    display: grid;
+    align-content: center;
+    gap: 20px;
+    justify-items: start;
+  }
+  h1 {
+    font-size: clamp(2.4rem, 7vw, 5rem);
+    max-width: 820px;
+  }
+  p:not(.eyebrow) {
+    color: var(--ink-2);
+  }
+</style>

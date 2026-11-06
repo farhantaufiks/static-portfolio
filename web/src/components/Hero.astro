@@ -1,0 +1,321 @@
+---
+import { profile, stats } from "../data/profile";
+---
+
+<section class="hero" id="top">
+  <canvas id="topo" aria-hidden="true"></canvas>
+  <div class="wrap inner">
+    <p class="eyebrow">{profile.coords} · {profile.location}</p>
+    <h1>
+      <span class="earth">Earth Science</span>
+      <span class="amp" aria-hidden="true">&amp;</span><span class="sr">and</span>
+      <span class="comp">Computer Science<span class="caret" aria-hidden="true">_</span></span>
+    </h1>
+    <p class="lede">
+      I'm <strong>{profile.name}</strong>. I trained as a geologist and logged wells for oil and gas,
+      then moved into software in 2021. Today I build backend systems at eDOT, part of Nabati Group:
+      Go and NestJS services, data migrations out of SAP, a notification engine. I build them with
+      Claude Code.
+    </p>
+    <div class="cta">
+      <a class="btn primary" href={profile.cv} download>Download CV</a>
+      <a class="btn" href={`mailto:${profile.email}`}>Email me</a>
+      <a class="btn" href={profile.links.github} rel="noopener noreferrer">GitHub</a>
+      <a class="btn" href={profile.links.linkedin} rel="noopener noreferrer">LinkedIn</a>
+    </div>
+    <dl class="stats">
+      {
+        stats.map((s) => (
+          <div>
+            <dt>{s.value}</dt>
+            <dd>{s.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+  <p class="legend mono" aria-hidden="true">contour interval: arbitrary · move your cursor to raise a peak</p>
+</section>
+
+<script>
+  // Topographic contours: fBm value noise, marching squares, every 5th line drawn as an index contour.
+  const canvas = document.getElementById("topo") as HTMLCanvasElement | null;
+  const ctx = canvas?.getContext("2d");
+  if (canvas && ctx) {
+    const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const CELL = 12;
+    const LEVELS = 22;
+
+    // Seeded permutation for repeatable terrain.
+    const perm = new Uint8Array(512);
+    let seed = 20150801;
+    const rand = () => ((seed = (seed * 1664525 + 1013904223) >>> 0) / 4294967296);
+    const p = Array.from({ length: 256 }, (_, i) => i);
+    for (let i = 255; i > 0; i--) {
+      const j = Math.floor(rand() * (i + 1));
+      [p[i], p[j]] = [p[j], p[i]];
+    }
+    for (let i = 0; i < 512; i++) perm[i] = p[i & 255];
+    const vals = Float32Array.from({ length: 256 }, () => rand());
+
+    const fade = (t: number) => t * t * (3 - 2 * t);
+    const noise = (x: number, y: number) => {
+      const xi = Math.floor(x), yi = Math.floor(y);
+      const xf = x - xi, yf = y - yi;
+      const a = vals[perm[(xi & 255) + perm[yi & 255]]];
+      const b = vals[perm[((xi + 1) & 255) + perm[yi & 255]]];
+      const c = vals[perm[(xi & 255) + perm[(yi + 1) & 255]]];
+      const d = vals[perm[((xi + 1) & 255) + perm[(yi + 1) & 255]]];
+      const u = fade(xf), v = fade(yf);
+      return a + (b - a) * u + (c - a) * v + (a - b - c + d) * u * v;
+    };
+    const fbm = (x: number, y: number) =>
+      noise(x, y) * 0.55 + noise(x * 2.03, y * 2.03) * 0.3 + noise(x * 4.1, y * 4.1) * 0.15;
+
+    let w = 0, h = 0, cols = 0, rows = 0, dpr = 1;
+    let field = new Float32Array(0);
+    let t = 0;
+    const peak = { x: -1e4, y: -1e4, tx: -1e4, ty: -1e4, s: 0, ts: 0 };
+    let colors = { line: "", index: "" };
+
+    const readColors = () => {
+      const cs = getComputedStyle(document.documentElement);
+      colors = { line: cs.getPropertyValue("--contour").trim(), index: cs.getPropertyValue("--contour-index").trim() };
+    };
+
+    const resize = () => {
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      w = canvas.clientWidth;
+      h = canvas.clientHeight;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
+      cols = Math.ceil(w / CELL) + 1;
+      rows = Math.ceil(h / CELL) + 1;
+      field = new Float32Array(cols * rows);
+    };
+
+    const sample = () => {
+      const sc = 0.0042;
+      const r2 = 2 * 170 * 170;
+      for (let j = 0; j < rows; j++) {
+        for (let i = 0; i < cols; i++) {
+          const x = i * CELL, y = j * CELL;
+          let v = fbm(x * sc + t, y * sc + t * 0.35);
+          if (peak.s > 0.001) {
+            const dx = x - peak.x, dy = y - peak.y;
+            v += 0.32 * peak.s * Math.exp(-(dx * dx + dy * dy) / r2);
+          }
+          field[j * cols + i] = v;
+        }
+      }
+    };
+
+    const draw = () => {
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      ctx.clearRect(0, 0, w, h);
+      for (let k = 1; k < LEVELS; k++) {
+        const iso = 0.12 + (k / LEVELS) * 0.95;
+        const isIndex = k % 5 === 0;
+        ctx.beginPath();
+        for (let j = 0; j < rows - 1; j++) {
+          for (let i = 0; i < cols - 1; i++) {
+            const a = field[j * cols + i], b = field[j * cols + i + 1];
+            const c = field[(j + 1) * cols + i + 1], d = field[(j + 1) * cols + i];
+            const idx = (a > iso ? 8 : 0) | (b > iso ? 4 : 0) | (c > iso ? 2 : 0) | (d > iso ? 1 : 0);
+            if (idx === 0 || idx === 15) continue;
+            const x = i * CELL, y = j * CELL;
+            const top = () => [x + ((iso - a) / (b - a)) * CELL, y];
+            const right = () => [x + CELL, y + ((iso - b) / (c - b)) * CELL];
+            const bottom = () => [x + ((iso - d) / (c - d)) * CELL, y + CELL];
+            const left = () => [x, y + ((iso - a) / (d - a)) * CELL];
+            const seg = (p1: number[], p2: number[]) => {
+              ctx.moveTo(p1[0], p1[1]);
+              ctx.lineTo(p2[0], p2[1]);
+            };
+            switch (idx) {
+              case 1: case 14: seg(left(), bottom()); break;
+              case 2: case 13: seg(bottom(), right()); break;
+              case 3: case 12: seg(left(), right()); break;
+              case 4: case 11: seg(top(), right()); break;
+              case 6: case 9: seg(top(), bottom()); break;
+              case 7: case 8: seg(left(), top()); break;
+              case 5: seg(left(), top()); seg(bottom(), right()); break;
+              case 10: seg(top(), right()); seg(left(), bottom()); break;
+            }
+          }
+        }
+        ctx.strokeStyle = isIndex ? colors.index : colors.line;
+        ctx.lineWidth = isIndex ? 1.4 : 0.8;
+        ctx.stroke();
+      }
+    };
+
+    const render = () => {
+      sample();
+      draw();
+    };
+
+    let visible = true;
+    let last = 0;
+    const loop = (now: number) => {
+      requestAnimationFrame(loop);
+      if (!visible || now - last < 66) return; // ~15 fps is plenty for drifting terrain
+      last = now;
+      t += 0.0016;
+      peak.x += (peak.tx - peak.x) * 0.12;
+      peak.y += (peak.ty - peak.y) * 0.12;
+      peak.s += (peak.ts - peak.s) * 0.08;
+      render();
+    };
+
+    readColors();
+    resize();
+    render();
+    window.addEventListener("resize", () => {
+      resize();
+      render();
+    });
+    window.addEventListener("themechange", () => {
+      readColors();
+      render();
+    });
+    matchMedia("(prefers-color-scheme: dark)").addEventListener("change", () => {
+      readColors();
+      render();
+    });
+
+    if (!reduce) {
+      new IntersectionObserver(([e]) => (visible = e.isIntersecting)).observe(canvas);
+      const hero = canvas.parentElement!;
+      hero.addEventListener("pointermove", (e) => {
+        const r = canvas.getBoundingClientRect();
+        peak.tx = e.clientX - r.left;
+        peak.ty = e.clientY - r.top;
+        if (peak.s < 0.01) {
+          peak.x = peak.tx;
+          peak.y = peak.ty;
+        }
+        peak.ts = 1;
+      });
+      hero.addEventListener("pointerleave", () => (peak.ts = 0));
+      requestAnimationFrame(loop);
+    }
+  }
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: calc(100svh - 60px);
+    display: flex;
+    align-items: center;
+    padding: clamp(56px, 9vw, 110px) 0 clamp(64px, 8vw, 96px);
+    overflow: hidden;
+    isolation: isolate;
+  }
+  canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    -webkit-mask-image: radial-gradient(ellipse 90% 80% at 70% 45%, #000 40%, transparent 100%);
+    mask-image: radial-gradient(ellipse 90% 80% at 70% 45%, #000 40%, transparent 100%);
+  }
+  .inner {
+    display: grid;
+    gap: 28px;
+  }
+  h1 {
+    font-size: clamp(3rem, 10vw, 7.4rem);
+    font-weight: 400;
+    line-height: 0.95;
+    letter-spacing: -0.035em;
+    display: grid;
+  }
+  .earth {
+    font-style: italic;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+    color: var(--ochre);
+  }
+  .amp {
+    font-size: 0.5em;
+    line-height: 1.2;
+    color: var(--ink-3);
+    font-style: italic;
+  }
+  .comp {
+    font-family: var(--mono);
+    font-weight: 500;
+    font-size: 0.72em;
+    letter-spacing: -0.04em;
+  }
+  .caret {
+    color: var(--moss);
+    animation: blink 1.1s steps(1) infinite;
+  }
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+  .sr {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+  .lede {
+    max-width: 620px;
+    font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+    color: var(--ink-2);
+  }
+  .lede strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+  .cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 1px;
+    margin: 18px 0 0;
+    max-width: 860px;
+    border-top: 1px solid var(--rule);
+  }
+  .stats div {
+    padding: 16px 16px 0 0;
+  }
+  .stats dt {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 3vw, 2.1rem);
+    line-height: 1.1;
+  }
+  .stats dd {
+    margin: 4px 0 0;
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--ink-3);
+    letter-spacing: 0.03em;
+  }
+  .legend {
+    position: absolute;
+    right: var(--gutter);
+    bottom: 18px;
+    color: var(--ink-3);
+    font-size: 0.68rem;
+  }
+  @media (max-width: 720px) {
+    .stats {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .legend {
+      display: none;
+    }
+  }
+</style>

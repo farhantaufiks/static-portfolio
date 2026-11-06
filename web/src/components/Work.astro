@@ -1,0 +1,170 @@
+---
+import { work, toolbox } from "../data/profile";
+---
+
+<section id="work" class="work">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">03 · Samples</p>
+      <h2>Core samples from five years of work.</h2>
+      <p>
+        Most of my work runs behind company logins, so there is not much to click. These are core
+        samples: what each project was and the engineering that held it up.
+      </p>
+    </div>
+
+    <ul class="grid">
+      {
+        work.map((w, i) => (
+          <li class:list={["card", { geo: i === work.length - 1 }]}>
+            <span class="no mono">{String(i + 1).padStart(2, "0")}</span>
+            <p class="mono kicker">{w.kicker}</p>
+            <h3>{w.title}</h3>
+            <p class="text">{w.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
+    <div class="box">
+      <h3 class="box-title">Core box</h3>
+      <div class="trays">
+        {
+          toolbox.map((t) => (
+            <div class="tray">
+              <p class="mono tray-name">{t.name}</p>
+              <ul>
+                {t.items.map((it) => (
+                  <li>{it}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+  .card {
+    position: relative;
+    padding: 24px;
+    border: 1px solid var(--rule);
+    border-radius: 14px;
+    background: var(--surface);
+    display: grid;
+    align-content: start;
+    gap: 10px;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .card:hover {
+    border-color: var(--ochre);
+    transform: translateY(-2px);
+  }
+  .card.geo {
+    background:
+      repeating-linear-gradient(
+        0deg,
+        transparent 0 22px,
+        color-mix(in srgb, var(--ochre) 10%, transparent) 22px 23px
+      ),
+      var(--surface);
+  }
+  .no {
+    position: absolute;
+    top: 20px;
+    right: 22px;
+    color: var(--ink-3);
+  }
+  .kicker {
+    color: var(--moss);
+    font-size: 0.7rem;
+    padding-right: 32px;
+  }
+  .card.geo .kicker {
+    color: var(--ochre);
+  }
+  .card h3 {
+    font-size: 1.4rem;
+  }
+  .text {
+    color: var(--ink-2);
+    font-size: 0.95rem;
+  }
+  .box {
+    margin-top: 56px;
+    border: 2px solid var(--ink);
+    border-radius: 6px;
+    padding: 0;
+    overflow: hidden;
+  }
+  .box-title {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 18px;
+    background: var(--ink);
+    color: var(--bg);
+  }
+  .trays {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .tray {
+    padding: 18px;
+    border-right: 1px dashed var(--rule);
+  }
+  .tray:last-child {
+    border-right: 0;
+  }
+  .tray-name {
+    color: var(--ochre);
+    margin-bottom: 10px;
+  }
+  .tray ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 4px;
+    font-size: 0.93rem;
+  }
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .trays {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .tray:nth-child(2) {
+      border-right: 0;
+    }
+    .tray:nth-child(-n + 2) {
+      border-bottom: 1px dashed var(--rule);
+    }
+  }
+  @media (max-width: 600px) {
+    .grid,
+    .trays {
+      grid-template-columns: 1fr;
+    }
+    .tray {
+      border-right: 0;
+      border-bottom: 1px dashed var(--rule);
+    }
+    .tray:last-child {
+      border-bottom: 0;
+    }
+  }
+</style>
