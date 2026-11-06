@@ -1,57 +1,73 @@
 ---
-import { profile, claudeWork, sameSession } from "../data/profile";
+import { profile, harness, verify, sameSession } from "../data/profile";
 ---
 
 <section id="claude" class="claude">
   <div class="wrap">
     <div class="section-head">
-      <p class="eyebrow">04 · How this site was made</p>
-      <h2>Claude Code built this page. I built the other one.</h2>
+      <p class="eyebrow">04 · How I work with Claude Code</p>
+      <h2>I don't hand Claude a task. I hand it a method.</h2>
       <p>
-        This site came from a single prompt. My hand-coded portfolio from 2021 is still online at{" "}
-        <a href={profile.manmade}>manmade.farhantaufiks.com</a>. Same person, same CV, different
-        tools. Compare them.
+        I've used Claude Code every day since March 2025. It does most of the typing. I decide what
+        gets built, how it gets checked, and when it stops. This page is a live example. My
+        hand-coded portfolio from 2021 is still up at{" "}
+        <a href={profile.manmade}>manmade.farhantaufiks.com</a>, for comparison.
       </p>
     </div>
 
+    <h3 class="sub">The system I built around it</h3>
+    <ul class="harness">
+      {
+        harness.map((h, i) => (
+          <li>
+            <span class="mono n">{String(i + 1).padStart(2, "0")}</span>
+            <h4>{h.title}</h4>
+            <p>{h.text}</p>
+          </li>
+        ))
+      }
+    </ul>
+
     <div class="split">
-      <figure class="prompt">
-        <figcaption class="mono">prompt.txt: everything I specified</figcaption>
-        <blockquote>
-          <p>
-            "Create a website to introduce myself, as Earth Science and Comp Science. That could be my
-            whole tagline. I won't give you specific instructions. Base it on what I do, how I talk to
-            you in other sessions, my background, my LinkedIn and my CV. Keep it separate from the
-            current site, deployable on its own, in the same repo."
-          </p>
-        </blockquote>
-        <div class="decided">
-          <p class="mono">What Claude decided on its own</p>
-          <ul>
-            <li>The stack: Astro, with no JavaScript framework shipped to the browser</li>
-            <li>The concept: topographic hero, career as a stratigraphic column</li>
-            <li>Every word of copy, the palette and the type</li>
-            <li>The repo split: <code>manmade/</code> and <code>web/</code>, built and deployed independently</li>
-            <li>The nginx vhosts, TLS and the deploy to my VPS</li>
-          </ul>
-        </div>
-      </figure>
-
-      <div class="notes">
-        <h3>How I use it day to day</h3>
+      <div class="verify">
+        <h3 class="sub">How I check what comes back</h3>
         <ul class="check">
-          {claudeWork.map((c) => <li>{c}</li>)}
+          {verify.map((v) => <li>{v}</li>)}
         </ul>
-
-        <h3>In the same session, before this page</h3>
-        <ol class="log mono">
-          {sameSession.map((s) => <li>{s}</li>)}
-        </ol>
         <p class="aside">
-          The part I own: deciding what to build, checking what comes back, and saying no when it is
-          wrong. The typing is the cheap part now.
+          Knowing the drill is the job: which method, which check, which order. The typing is the
+          cheap part now.
         </p>
       </div>
+
+      <figure class="prompt">
+        <figcaption class="mono">how this page was made · 2 prompts</figcaption>
+        <div class="turn">
+          <p class="mono who">v1 · me</p>
+          <blockquote>
+            "Create a website to introduce me, as Earth Science and Comp Science. I won't give
+            specific instructions. Base it on what I do, how I talk to you in other sessions, my
+            background, LinkedIn and CV."
+          </blockquote>
+          <p class="mono res">→ Claude: concept, stack (Astro), copy, repo split, nginx, TLS, deploy</p>
+        </div>
+        <div class="turn">
+          <p class="mono who">v2 · me, after review</p>
+          <blockquote>
+            "This only covers my CV, not what I actually do. You know my work from other sessions.
+            And I still verify the work. Don't undersell it."
+          </blockquote>
+          <p class="mono res">→ Claude: re-read 100+ project memories, rewrote the eDOT story and this section, with nothing under NDA</p>
+        </div>
+        <p class="moral">The first draft was fine. Fine wasn't the bar, so it went back.</p>
+      </figure>
+    </div>
+
+    <div class="session">
+      <h3 class="sub">Same session, before this page</h3>
+      <ol class="log mono">
+        {sameSession.map((s) => <li>{s}</li>)}
+      </ol>
     </div>
   </div>
 </section>
@@ -61,11 +77,72 @@ import { profile, claudeWork, sameSession } from "../data/profile";
     background: var(--bg-2);
     border-block: 1px solid var(--rule);
   }
+  .sub {
+    font-size: 1.4rem;
+    margin-bottom: 16px;
+  }
+  .harness {
+    list-style: none;
+    margin: 0 0 48px;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+  }
+  .harness li {
+    background: var(--surface);
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--ochre);
+    border-radius: 10px;
+    padding: 18px;
+    display: grid;
+    align-content: start;
+    gap: 8px;
+  }
+  .harness .n {
+    color: var(--ink-3);
+  }
+  h4 {
+    margin: 0;
+    font-family: var(--serif);
+    font-weight: 500;
+    font-size: 1.2rem;
+    line-height: 1.15;
+  }
+  .harness p {
+    color: var(--ink-2);
+    font-size: 0.93rem;
+  }
   .split {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 28px;
     align-items: start;
+  }
+  .check {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 10px;
+    color: var(--ink-2);
+  }
+  .check li {
+    padding-left: 26px;
+    position: relative;
+  }
+  .check li::before {
+    content: "✓";
+    position: absolute;
+    left: 2px;
+    color: var(--moss);
+    font-weight: 700;
+  }
+  .aside {
+    margin-top: 24px;
+    font-family: var(--serif);
+    font-size: 1.2rem;
+    font-style: italic;
   }
   .prompt {
     margin: 0;
@@ -89,69 +166,42 @@ import { profile, claudeWork, sameSession } from "../data/profile";
     border-radius: 50%;
     background: var(--moss);
   }
+  .turn {
+    padding: 18px 20px;
+    border-bottom: 1px dashed var(--rule);
+    display: grid;
+    gap: 8px;
+  }
+  .who {
+    color: var(--ochre);
+  }
   blockquote {
     margin: 0;
-    padding: 22px 22px 18px;
     font-family: var(--serif);
-    font-size: 1.25rem;
+    font-size: 1.1rem;
     line-height: 1.45;
     font-style: italic;
   }
-  .decided {
-    padding: 18px 22px 22px;
-    border-top: 1px dashed var(--rule);
-  }
-  .decided .mono {
-    color: var(--ochre);
-    margin-bottom: 8px;
-  }
-  .decided ul {
-    margin: 0;
-    padding-left: 18px;
-    color: var(--ink-2);
-    display: grid;
-    gap: 4px;
-    font-size: 0.95rem;
-  }
-  code {
-    font-family: var(--mono);
-    font-size: 0.85em;
+  .res {
     color: var(--moss);
+    font-size: 0.74rem;
   }
-  .notes h3 {
-    font-size: 1.35rem;
-    margin-bottom: 12px;
+  .moral {
+    padding: 16px 20px 20px;
+    font-weight: 500;
   }
-  .notes h3:not(:first-child) {
-    margin-top: 30px;
-  }
-  .check {
-    list-style: none;
-    margin: 0;
-    padding: 0;
-    display: grid;
-    gap: 8px;
-    color: var(--ink-2);
-    font-size: 0.97rem;
-  }
-  .check li {
-    padding-left: 24px;
-    position: relative;
-  }
-  .check li::before {
-    content: "▸";
-    position: absolute;
-    left: 4px;
-    color: var(--ochre);
+  .session {
+    margin-top: 48px;
   }
   .log {
     margin: 0;
-    padding: 16px 18px 16px 40px;
+    padding: 18px 20px 18px 44px;
     background: var(--bg);
     border: 1px solid var(--rule);
     border-radius: 10px;
     display: grid;
-    gap: 8px;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
     color: var(--ink-2);
     font-size: 0.8rem;
     line-height: 1.5;
@@ -159,14 +209,19 @@ import { profile, claudeWork, sameSession } from "../data/profile";
   .log li::marker {
     color: var(--moss);
   }
-  .aside {
-    margin-top: 22px;
-    font-family: var(--serif);
-    font-size: 1.15rem;
-    font-style: italic;
+  @media (max-width: 960px) {
+    .harness {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
   @media (max-width: 860px) {
-    .split {
+    .split,
+    .log {
+      grid-template-columns: 1fr;
+    }
+  }
+  @media (max-width: 560px) {
+    .harness {
       grid-template-columns: 1fr;
     }
   }
